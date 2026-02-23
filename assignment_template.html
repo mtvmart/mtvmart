@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset=utf-8 />
+    <title>US Electric Power Generation - Week 5</title>
+    <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.4.0/dist/leaflet.css" />
+<script src="https://unpkg.com/leaflet@1.4.0/dist/leaflet.js"></script>
+    <link href='http://fonts.googleapis.com/css?family=Lato' rel='stylesheet' type='text/css'>
+
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: rgb(9, 139, 15);
+            font-family: Lato, sans-serif;
+            color: #0D0000;
+        }
+        header {
+            padding: 6px 10%;
+        }
+        h1 {
+            display: inline-block;
+            margin-right: 20px;
+            color: #001323;
+        }
+        h2 {
+            display: inline-block;
+            color: #001323;
+        }
+        #map {
+            width: 80%;
+            height: 540px;
+            margin: 10px auto;
+        }
+        footer {
+            padding: 6px 10%;
+            width: 80%;
+        }
+        p {
+            font-size: 1em;
+            color: #001323;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1>US Electric Power Generation</h1>
+        <h2>Renewable Energy Sources: Biomass, Geothermal, and Solar</h2>
+    </header>
+
+    <div id='map'></div>
+
+    <footer>
+        <p>Andrew Martin</p>
+        <p>This map represents renewable energy power plants across the United States, with circle size representing capacity in megawatts (MW).</p>
+    </footer>
+
+    <script src="power-plants.js"></script>
+    <script>
+
+      var map = L.map('map', {
+          center: [36,-94],
+          zoom: 4,
+      });
+      
+      var tiles = L.tileLayer('http://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}.png', {
+          attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="http://cartodb.com/attributions">CartoDB</a>',
+          subdomains: 'abcd',
+          maxZoom: 19
+      });  
+      
+      tiles.addTo(map);
+      
+      // Step 2: Radius function to scale symbols appropriately
+      function getRadius(capacity) {
+          var radius = Math.sqrt(capacity / Math.PI);
+          return radius * 0.8;
+      }
+      
+      // Step 3: Create Biomass layer with green color
+      var biomassLayer = L.geoJson(plants, {
+          pointToLayer: function(feature, latlng) {
+              return L.circleMarker(latlng, {
+                  color: '#2d5016',
+                  weight: 1,
+                  fillColor: '#4CAF50',
+                  fillOpacity: 0.7,
+                  radius: getRadius(feature.properties.capacity_mw)
+              });
+          },
+          filter: function(feature) {
+              return feature.properties.fuel_source['Biomass'];
+          },
+          onEachFeature: function(feature, layer) {
+              var popup = "<b>" + feature.properties.plant_name + "</b><br>" +
+                         feature.properties.capacity_mw.toLocaleString() + " MW";
+              layer.bindPopup(popup);
+          }
+      }).addTo(map);
+      
+      // Step 3: Create Geothermal layer with reddish-orange color
+      var geothermalLayer = L.geoJson(plants, {
+          pointToLayer: function(feature, latlng) {
+              return L.circleMarker(latlng, {
+                  color: '#8B2500',
+                  weight: 1,
+                  fillColor: '#FF5722',
+                  fillOpacity: 0.7,
+                  radius: getRadius(feature.properties.capacity_mw)
+              });
+          },
+          filter: function(feature) {
+              return feature.properties.fuel_source['Geothermal'];
+          },
+          onEachFeature: function(feature, layer) {
+              var popup = "<b>" + feature.properties.plant_name + "</b><br>" +
+                         feature.properties.capacity_mw.toLocaleString() + " MW";
+              layer.bindPopup(popup);
+          }
+      }).addTo(map);
+      
+      // Step 3: Create Solar layer with yellow color
+      var solarLayer = L.geoJson(plants, {
+          pointToLayer: function(feature, latlng) {
+              return L.circleMarker(latlng, {
+                  color: '#b8860b',
+                  weight: 1,
+                  fillColor: '#FFD700',
+                  fillOpacity: 0.7,
+                  radius: getRadius(feature.properties.capacity_mw)
+              });
+          },
+          filter: function(feature) {
+              return feature.properties.fuel_source['Solar'];
+          },
+          onEachFeature: function(feature, layer) {
+              var popup = "<b>" + feature.properties.plant_name + "</b><br>" +
+                         feature.properties.capacity_mw.toLocaleString() + " MW";
+              layer.bindPopup(popup);
+          }
+      }).addTo(map);
+      
+      // Step 4: Add layer control with styled labels
+      var sourcesLayers = {
+          "<span style='color: #4CAF50; font-weight: bold;'>Biomass</span>": biomassLayer,
+          "<span style='color: #FF5722; font-weight: bold;'>Geothermal</span>": geothermalLayer,
+          "<span style='color: #FFD700; font-weight: bold;'>Solar</span>": solarLayer
+      };
+      
+      L.control.layers(null, sourcesLayers, { collapsed: false }).addTo(map);
+          
+    </script>
+    
+</body>
+
+</html>
