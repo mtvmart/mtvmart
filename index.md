@@ -5,9 +5,7 @@ nav_order: 1
 
 # 👋 Welcome
 
-Hi! I’m **Your Name**, a [short description — e.g. researcher, map designer, etc.].
-
-Use the links on the left (or top, depending on theme) to explore:
+Hi! I’m Andrew, a Senior Environmental Studies Major looking to become a Park Ranger, or work in the DCNR.
 
 - [About Me](about.md)
 - [Projects](projects.md)
