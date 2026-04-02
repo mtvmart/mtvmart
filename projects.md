@@ -5,9 +5,9 @@ nav_order: 3
 
 # Projects
 
-Here are some of my favorite works:
+Here are some of my recent works:
 
 | Year | Project | Description |
 |------|----------|--------------|
-| 2024 | Tokyo Mapping Studio | A collection of urban spatial stories |
-| 2023 | Cities in Motion | An interactive Leaflet map series |
+| 2026 | UFO Sighting Duration | A collection of UFO proportions|
+| 2026 | Cities in Motion | An interactive Leaflet map series |
