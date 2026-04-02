@@ -5,7 +5,9 @@ nav_order: 2
 
 # About Me
 
-I’m a geographer and educator passionate about mapping, cities, and design.
+Hi, I'm Andrew!
+In my free time I hike, mountain bike, and play spikeball
+I love all Boston sports, but especially the Bruins
 
-- **Current role:** Professor of Urban Spatial Design in Japan  
-- **Interests:** Web mapping, spatial analysis, and creative geography 
+- **Current role:** DCNR Ranger Trainee  
+- **Interests:** Remote sensing, state & national park preservation
