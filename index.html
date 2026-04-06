@@ -1,83 +1,80 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Andrew Martin</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>My Website</title>
+  <style>
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      max-width: 900px;
+      margin: 40px auto;
+      padding: 0 20px;
+      line-height: 1.6;
+      color: #222;
+      background: #fff;
+    }
 
-    <style>
-        body {
-            margin: 0;
-            font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-            background: #eef2f5;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-        }
+    h1, h2 {
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
 
-        .container {
-            background: white;
-            padding: 40px;
-            border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-            text-align: center;
-            width: 400px;
-        }
+    .subtitle {
+      font-size: 1.1rem;
+      margin-bottom: 30px;
+    }
 
-        h1 {
-            margin-bottom: 20px;
-        }
+    .textbox {
+      width: 100%;
+      min-height: 120px;
+      padding: 12px;
+      font-size: 1rem;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      box-sizing: border-box;
+      margin-bottom: 25px;
+      resize: vertical;
+    }
 
-        .textbox {
-            width: 100%;
-            padding: 15px;
-            border-radius: 10px;
-            border: 1px solid #ddd;
-            margin-bottom: 25px;
-            font-size: 14px;
-            resize: none;
-            background: #fafafa;
-        }
+    .nav-links {
+      margin-top: 10px;
+      margin-bottom: 30px;
+    }
 
-        .btn {
-            display: block;
-            width: 100%;
-            padding: 15px;
-            margin: 10px 0;
-            border: none;
-            border-radius: 12px;
-            background: #2c3e50;
-            color: white;
-            font-size: 16px;
-            cursor: pointer;
-            transition: 0.3s;
-        }
+    .nav-links a {
+      display: block;
+      margin: 8px 0;
+      color: #0366d6;
+      text-decoration: none;
+      font-size: 1rem;
+    }
 
-        .btn:hover {
-            background: #1a252f;
-            transform: translateY(-2px);
-        }
-
-        a {
-            text-decoration: none;
-        }
-    </style>
+    .nav-links a:hover {
+      text-decoration: underline;
+    }
+  </style>
 </head>
-
 <body>
+  <h1>My GitHub Website</h1>
+  <div class="subtitle">Portfolio and projects of Andrew Martin</div>
 
-    <div class="container">
-        <h1>Welcome</h1>
+  <h1>Welcome</h1>
 
-        <!-- Text Box -->
-        <textarea class="textbox" rows="4" placeholder="Write something about yourself here..."></textarea>
+  <textarea class="textbox" placeholder="Write something here..."></textarea>
 
-        <!-- Buttons -->
-        <a href="about.html"><button class="btn">About Me</button></a>
-        <a href="projects.html"><button class="btn">My Projects</button></a>
-        <a href="contact.html"><button class="btn">Contacts</button></a>
-    </div>
+  <p>
+    Hi! I’m Andrew Martin, and this is my personal website.
+  </p>
 
+  <p>
+    Use the links below to explore:
+  </p>
+
+  <div class="nav-links">
+    <a href="about.html">About Me</a>
+    <a href="projects.html">My Projects</a>
+    <a href="contact.html">Contacts</a>
+  </div>
 </body>
 </html>
