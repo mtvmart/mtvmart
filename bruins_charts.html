@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no" />
+  <title>Boston Bruins 2025-26 Season Stats</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #6b3c11;
+      color: #f0f0f0;
+      padding: 30px 20px;
+    }
+
+    h1 {
+      text-align: center;
+      color: #FFB81C;
+      font-size: 1.8rem;
+      margin-bottom: 6px;
+    }
+
+    .subtitle {
+      text-align: center;
+      color: #aaa;
+      font-size: 0.95rem;
+      margin-bottom: 40px;
+    }
+
+    .chart-section {
+      background: #1a1a1a;
+      border: 1px solid #333;
+      border-radius: 10px;
+      padding: 24px;
+      margin-bottom: 40px;
+      max-width: 900px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .chart-section h2 {
+      color: #FFB81C;
+      font-size: 1.1rem;
+      margin-bottom: 6px;
+    }
+
+    .chart-section p {
+      color: #888;
+      font-size: 0.85rem;
+      margin-bottom: 20px;
+    }
+
+    canvas { width: 100% !important; }
+  </style>
+</head>
+<body>
+
+  <h1>Boston Bruins 2025-26 Season</h1>
+  <p class="subtitle">Regular Season Player Statistics (Besides game 82) </p>
+
+  <!-- Chart 1: Bar Chart - Top 10 Skaters by Points -->
+  <div class="chart-section">
+    <h2>Top 10 Skaters by Points</h2>
+    <p>Hover over a bar to see goals, assists, and total points. Sorted by total points descending.</p>
+    <canvas id="barChart" height="320"></canvas>
+  </div>
+
+  <!-- Chart 2: Scatter Plot - Goals vs Shots -->
+  <div class="chart-section">
+    <h2>Goals vs. Shots on Goal</h2>
+    <p>Each dot represents a skater. Larger dots indicate a higher shooting percentage. Hover for player details.</p>
+    <canvas id="scatterChart" height="320"></canvas>
+  </div>
+
+  <script>
+    const skaters = [
+      { name: "David Pastrnak",     goals: 29, assists: 70, points: 99, shots: 258, shootPct: 11.2, gp: 76 },
+      { name: "Morgan Geekie",      goals: 38, assists: 29, points: 67, shots: 179, shootPct: 21.2, gp: 80 },
+      { name: "Pavel Zacha",        goals: 30, assists: 34, points: 64, shots: 131, shootPct: 22.9, gp: 77 },
+      { name: "Charlie McAvoy",     goals: 11, assists: 50, points: 61, shots: 111, shootPct: 9.9,  gp: 68 },
+      { name: "Viktor Arvidsson",   goals: 24, assists: 29, points: 53, shots: 174, shootPct: 13.8, gp: 68 },
+      { name: "Elias Lindholm",     goals: 17, assists: 31, points: 48, shots: 114, shootPct: 14.9, gp: 68 },
+      { name: "Casey Mittelstadt",  goals: 15, assists: 27, points: 42, shots: 80,  shootPct: 18.8, gp: 71 },
+      { name: "Fraser Minten",      goals: 17, assists: 17, points: 34, shots: 116, shootPct: 14.7, gp: 81 },
+      { name: "Marat Khusnutdinov", goals: 15, assists: 18, points: 33, shots: 78,  shootPct: 19.2, gp: 76 },
+      { name: "Pavel Zacha",        goals: 30, assists: 34, points: 64, shots: 131, shootPct: 22.9, gp: 77 },
+    ];
+
+    // Deduplicate and sort by points
+    const unique = [...new Map(skaters.map(s => [s.name, s])).values()]
+      .sort((a, b) => b.points - a.points)
+      .slice(0, 10);
+
+    // ── Chart 1: Horizontal Bar Chart ──────────────────────────────────────
+    new Chart(document.getElementById("barChart"), {
+      type: "bar",
+      data: {
+        labels: unique.map(s => s.name),
+        datasets: [
+          {
+            label: "Goals",
+            data: unique.map(s => s.goals),
+            backgroundColor: "#FFB81C",
+            borderRadius: 4
+          },
+          {
+            label: "Assists",
+            data: unique.map(s => s.assists),
+            backgroundColor: "#644117",
+            borderRadius: 4
+          }
+        ]
+      },
+      options: {
+        indexAxis: "y",
+        responsive: true,
+        plugins: {
+          legend: {
+            labels: { color: "#ccc" }
+          },
+          tooltip: {
+            callbacks: {
+              afterBody: (items) => {
+                const player = unique[items[0].dataIndex];
+                return [`Total Points: ${player.points}`, `Games Played: ${player.gp}`];
+              }
+            }
+          }
+        },
+        scales: {
+          x: {
+            stacked: true,
+            ticks: { color: "#aaa" },
+            grid: { color: "#2a2a2a" }
+          },
+          y: {
+            stacked: true,
+            ticks: { color: "#ddd" },
+            grid: { color: "#2a2a2a" }
+          }
+        }
+      }
+    });
+
+    // ── Chart 2: Scatter Plot – Goals vs Shots ─────────────────────────────
+    const allSkaters = [
+      { name: "David Pastrnak",     goals: 29, shots: 258, shootPct: 11.2, gp: 76 },
+      { name: "Morgan Geekie",      goals: 38, shots: 179, shootPct: 21.2, gp: 80 },
+      { name: "Pavel Zacha",        goals: 30, shots: 131, shootPct: 22.9, gp: 77 },
+      { name: "Charlie McAvoy",     goals: 11, shots: 111, shootPct: 9.9,  gp: 68 },
+      { name: "Viktor Arvidsson",   goals: 24, shots: 174, shootPct: 13.8, gp: 68 },
+      { name: "Elias Lindholm",     goals: 17, shots: 114, shootPct: 14.9, gp: 68 },
+      { name: "Casey Mittelstadt",  goals: 15, shots: 80,  shootPct: 18.8, gp: 71 },
+      { name: "Fraser Minten",      goals: 17, shots: 116, shootPct: 14.7, gp: 81 },
+      { name: "Marat Khusnutdinov", goals: 15, shots: 78,  shootPct: 19.2, gp: 76 },
+      { name: "Hampus Lindholm",    goals: 5,  shots: 99,  shootPct: 5.1,  gp: 66 },
+      { name: "Nikita Zadorov",     goals: 2,  shots: 104, shootPct: 1.9,  gp: 80 },
+      { name: "Mason Lohrei",       goals: 7,  shots: 71,  shootPct: 9.9,  gp: 72 },
+      { name: "Andrew Peeke",       goals: 5,  shots: 81,  shootPct: 6.2,  gp: 76 },
+      { name: "Mark Kastelic",      goals: 10, shots: 96,  shootPct: 10.4, gp: 81 },
+      { name: "Tanner Jeannot",     goals: 6,  shots: 76,  shootPct: 7.9,  gp: 76 },
+      { name: "Sean Kuraly",        goals: 6,  shots: 108, shootPct: 5.6,  gp: 81 },
+      { name: "Michael Eyssimont",  goals: 8,  shots: 106, shootPct: 7.5,  gp: 55 },
+      { name: "Alex Steeves",       goals: 9,  shots: 55,  shootPct: 16.4, gp: 43 },
+      { name: "Lukas Reichel",      goals: 3,  shots: 24,  shootPct: 12.5, gp: 29 },
+    ];
+
+    new Chart(document.getElementById("scatterChart"), {
+      type: "scatter",
+      data: {
+        datasets: [{
+          label: "Skaters",
+          data: allSkaters.map(s => ({ x: s.shots, y: s.goals, r: s.shootPct })),
+          backgroundColor: allSkaters.map(s =>
+            s.shootPct > 18 ? "rgba(255,184,28,0.85)" :
+            s.shootPct > 12 ? "rgba(100,65,23,0.85)" :
+                              "rgba(180,180,180,0.6)"
+          ),
+          pointRadius: allSkaters.map(s => Math.max(5, s.shootPct * 0.9)),
+          pointHoverRadius: allSkaters.map(s => Math.max(7, s.shootPct * 1.1)),
+        }]
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          legend: { display: false },
+          tooltip: {
+            callbacks: {
+              label: (item) => {
+                const s = allSkaters[item.dataIndex];
+                return [
+                  `Player: ${s.name}`,
+                  `Goals: ${s.goals}`,
+                  `Shots: ${s.shots}`,
+                  `Shooting %: ${s.shootPct}%`,
+                  `Games Played: ${s.gp}`
+                ];
+              }
+            }
+          }
+        },
+        scales: {
+          x: {
+            title: { display: true, text: "Shots on Goal", color: "#aaa" },
+            ticks: { color: "#aaa" },
+            grid: { color: "#2a2a2a" }
+          },
+          y: {
+            title: { display: true, text: "Goals", color: "#aaa" },
+            ticks: { color: "#aaa" },
+            grid: { color: "#2a2a2a" }
+          }
+        }
+      }
+    });
+  </script>
+</body>
+</html>
